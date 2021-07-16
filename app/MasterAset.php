@@ -4,11 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\TransaksiInventarisasi;
-use App\TransaksiPindahRuangan;
-use App\MasterGedung;
-use App\Kondisi;
-use App\MasterJenisInventarisasi;
 
 class MasterAset extends Model
 {
@@ -16,22 +11,22 @@ class MasterAset extends Model
     use SoftDeletes;
 
     public function transaksi_inventarisasi(){
-        return $this->hasMany('TransaksiInventarisasi');
+        return $this->hasMany('App\TransaksiInventarisasi');
     }
 
     public function transaksi_pindah_ruangan(){
-        return $this->hasMany('TransaksiPindahRuangan');
+        return $this->hasMany('App\TransaksiPindahRuangan');
     }
 
     public function master_gedung(){
-        return $this->hasMany('MasterGedung');
+        return $this->hasMany('App\MasterGedung');
     }
 
     public function master_kodisi(){
-        return $this->belongsTo('MasterKondisi');
+        return $this->belongsTo('App\MasterKondisi');
     }
 
     public function master_jenis_inventarisasi(){
-        return $this->belongsTo('MasterJenisInventarisasi');
+        return $this->belongsTo('App\MasterJenisInventarisasi');
     }
 }

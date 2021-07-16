@@ -18,12 +18,19 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/menu-dir', 'HomeController@menu_dir')->name('dir');
+Route::get('/menu-pindah-ruangan', 'HomeController@menu_pindah_ruangan')->name('pindah_ruangan');
 
 Route::resource('master-aset', 'MasterAsetController');
+
 Route::resource('transaksi-inventarisasi', 'TransaksiInventarisasiController');
 Route::resource('approval-transaksi-inventarisasi', 'ApprovalTransaksiInventarisasiController');
+Route::get('/transaksi-inventarisasi/ruangan/{ruangan}', 'TransaksiInventarisasiController@ruangan')->name('transaksi-inventarisasi.ruangan');
+Route::get('/transaksi-inventarisasi/ruangan/ubah/{ruangan}', 'TransaksiInventarisasiController@ubah_ruangan')->name('transaksi-inventarisasi.ubah-ruangan');
+
 Route::resource('transaksi-pindah-ruangan', 'TransaksiPindahRuanganController');
 Route::resource('approval-transaksi-pindah-ruangan', 'ApprovalTransaksiPindahRuanganController');
+
 Route::resource('master-gedung', 'MasterGedungController');
 Route::resource('master-lantai', 'MasterLantaiController');
 Route::resource('master-ruangant', 'MasterRuanganController');

@@ -20,7 +20,7 @@ class CreateTransaksiInventarisasisTable extends Migration
             $table->string('nama_barang');
             $table->date('tanggal_perolehan');
             $table->longText('keterangan');
-            $table->integer('kodisi_id');
+            $table->integer('kondisi_id');
             $table->string('kode_unit');
             $table->integer('jenis_inventarisasi_id');
             $table->integer('ruangan_id');
