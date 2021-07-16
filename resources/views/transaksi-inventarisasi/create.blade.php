@@ -42,7 +42,7 @@
                             <option value="3">Rusak Berat</option>
                         </select>
                     </div>
-                    <input type="hidden" name="ruangan_id" value="{{$ruangan_id}}">
+                    <input type="hidden" name="ruangan_id" value="{{$ruangan->id}}">
                 </div>
                 <!-- /modal body -->
 

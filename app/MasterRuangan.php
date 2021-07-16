@@ -15,7 +15,7 @@ class MasterRuangan extends Model
     }
 
     public function user(){
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\User', 'penanggung_jawab_ruangan_id');
     }
 
     public function master_lantai(){
