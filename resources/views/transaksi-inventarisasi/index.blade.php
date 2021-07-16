@@ -16,7 +16,7 @@
                         <label for="ruangan" class="">Ruangan</label>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="ruangan" name="ruangan" value="{{$ruangan_id}}" readonly>
+                        <input type="text" class="form-control" id="ruangan" name="ruangan" value="{{$ruangan->nama_ruangan}}" readonly>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         <label for="pengurus-barang" class="">Pengurus Barang</label>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="pengurus-barang" name="pengurus-barang" value="{{$ruangan_id}}" readonly>
+                        <input type="text" class="form-control" id="pengurus-barang" name="pengurus-barang" value="{{$ruangan->user->name}}" readonly>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
 
         <div class="row">
             <div class="col">
-                <div class="d-flex">
+                <div class="d-flex mx-2">
                     <div class="p-2">
                         <button class="btn btn-primary mr-0 mb-2"data-toggle="modal" data-target="#tambah-modal">
                             <i class="bi bi-box-arrow-left "></i>
@@ -42,7 +42,7 @@
                         </button>
                     </div>
                     <div class="p-2">
-                        <a href="{{route('transaksi-inventarisasi.ubah-ruangan', ['ruangan' => $ruangan_id])}}" class="btn btn-warning">
+                        <a href="{{route('transaksi-inventarisasi.ubah-ruangan', ['ruangan' => $ruangan->id])}}" class="btn btn-warning">
                             Ubah
                         </a>
                     </div>
@@ -64,7 +64,7 @@
     
         <!-- tabel berisi barangnya -->
         <div class="container d-flex flex-column">
-            <div class="table-responsive mt-5 ms-1 me-5">
+            <div class="table-responsive mt-3 ms-1 me-5">
                 <table class="table table-bordered">
                     <thead>
                         <th>No</th>
@@ -103,8 +103,6 @@
 @section('modal')
 
     @include('transaksi-inventarisasi.create')
-
-    @include('transaksi-inventarisasi.edit')
     
 @endsection
 

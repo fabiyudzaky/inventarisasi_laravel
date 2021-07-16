@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\TransaksiInventarisasi;
 use Illuminate\Http\Request;
+use App\MasterRuangan;
 
 class TransaksiInventarisasiController extends Controller
 {
@@ -80,6 +81,7 @@ class TransaksiInventarisasiController extends Controller
     public function edit(TransaksiInventarisasi $transaksiInventarisasi)
     {
         //
+        return response()->json($transaksiInventarisasi);
     }
 
     /**
@@ -92,6 +94,14 @@ class TransaksiInventarisasiController extends Controller
     public function update(Request $request, TransaksiInventarisasi $transaksiInventarisasi)
     {
         //
+        $transaksiInventarisasi->kode_barang = $request->input('kode_barang');
+        $transaksiInventarisasi->nama_barang = $request->input('nama_barang');
+        $transaksiInventarisasi->tanggal_perolehan = $request->input('tanggal_perolehan');
+        $transaksiInventarisasi->keterangan = $request->input('keterangan');
+        $transaksiInventarisasi->kondisi_id = $request->input('kondisi_id');
+        $transaksiInventarisasi->save();
+        
+        return redirect(route('transaksi-inventarisasi.ubah-ruangan', ['ruangan' => $transaksiInventarisasi->ruangan_id]));
     }
 
     /**
@@ -113,15 +123,15 @@ class TransaksiInventarisasiController extends Controller
     public function ruangan($id){
         //
         $no = 1;
-        $ruangan_id = $id;
-        $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan_id)->get();
-        return view('transaksi-inventarisasi.index', compact('transaksiInventarisasi', 'ruangan_id', 'no'));
+        $ruangan = MasterRuangan::find($id);
+        $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan->id)->get();
+        return view('transaksi-inventarisasi.index', compact('transaksiInventarisasi', 'ruangan', 'no'));
     }
 
     public function ubah_ruangan($id){
         $no = 1;
-        $ruangan_id = $id;
-        $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan_id)->get();
-        return view('transaksi-inventarisasi.ubah-ruangan', compact('transaksiInventarisasi', 'ruangan_id', 'no'));
+        $ruangan = MasterRuangan::find($id);
+        $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan->id)->get();
+        return view('transaksi-inventarisasi.ubah-ruangan', compact('transaksiInventarisasi', 'ruangan', 'no'));
     }
 }

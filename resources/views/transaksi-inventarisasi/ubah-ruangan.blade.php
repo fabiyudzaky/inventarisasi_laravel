@@ -16,7 +16,7 @@
                         <label for="ruangan" class="">Ruangan</label>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="ruangan" name="ruangan" value="{{$ruangan_id}}" readonly>
+                        <input type="text" class="form-control" id="ruangan" name="ruangan" value="{{$ruangan->nama_ruangan}}" readonly>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         <label for="pengurus-barang" class="">Pengurus Barang</label>
                     </div>
                     <div class="col-md-8">
-                        <input type="text" class="form-control" id="pengurus-barang" name="pengurus-barang" value="{{$ruangan_id}}" readonly>
+                        <input type="text" class="form-control" id="pengurus-barang" name="pengurus-barang" value="{{$ruangan->user->name}}" readonly>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
 
         <div class="row">
             <div class="col">
-                <div class="d-flex">
+                <div class="d-flex mx-2">
                     <div class="p-2">
                         <button class="btn btn-primary mr-0 mb-2 disabled"data-toggle="modal" data-target="#tambah-modal">
                             <i class="bi bi-box-arrow-left"></i>
@@ -47,9 +47,9 @@
                         </a>
                     </div>
                     <div class="p-2">
-                        <a href="{{route('transaksi-inventarisasi.ruangan', ['ruangan' => $ruangan_id])}}" class="btn btn-danger">
+                        <a href="{{route('transaksi-inventarisasi.ruangan', ['ruangan' => $ruangan->id])}}" class="btn btn-success">
                             <i class="bi bi-box-arrow-left "></i>
-                            Tunda
+                            Selesai
                         </a>
                     </div>
                     <div class="ml-auto p-2">
@@ -64,7 +64,7 @@
     
         <!-- tabel berisi barangnya -->
         <div class="container d-flex flex-column">
-            <div class="table-responsive mt-5 ms-1 me-5">
+            <div class="table-responsive mt-3 ms-1 me-5">
                 <table class="table table-bordered">
                     <thead>
                         <th>No</th>
@@ -91,9 +91,10 @@
                                 <td>{{$trxInv->master_kondisi->keterangan}}</td>
                                 <td>
                                     <form action="{{route('transaksi-inventarisasi.destroy', ['transaksi_inventarisasi' => $trxInv->id])}}" method="post">
+                                        <button type="button" id="" class="btn btn-warning btn-edit" data-toggle="modal" data-target="#edit-modal" data-id="{{$trxInv->id}}">Ubah</button>
                                         @method('delete')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger">Hapus</button>
                                     </form>
                                 </td>
                             </tr>
@@ -109,11 +110,31 @@
 
 @section('modal')
 
-    @include('transaksi-inventarisasi.create')
-
     @include('transaksi-inventarisasi.edit')
     
 @endsection
 
 @section('script')
+<script>
+    $( ".btn-edit" ).click(function() {
+        let id = $(this).data('id');
+        console.log(id);
+
+        $('#myFormId').attr('action', '/transaksi-inventarisasi/'+id);
+
+        $.ajax({
+            type: "get",
+            url: "{{url('/transaksi-inventarisasi')}}/"+id+"/edit",
+            dataType: 'json',
+            success: function(res){
+                  console.log(res);
+                $('#kode_barang').val(res.kode_barang);
+                $('#nama_barang').val(res.nama_barang);
+                $('#tanggal_perolehan').val(res.tanggal_perolehan);
+                $('#keterangan').val(res.keterangan);
+                $('#kondisi_id').val(res.kondisi_id);
+            }
+        });
+    });
+</script>
 @endsection
