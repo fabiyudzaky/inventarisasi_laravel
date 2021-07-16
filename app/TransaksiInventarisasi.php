@@ -4,8 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\ApprovalTransaksiInventarisasi;
-use App\User;
 
 class TransaksiInventarisasi extends Model
 {
@@ -13,10 +11,14 @@ class TransaksiInventarisasi extends Model
     use SoftDeletes;
 
     public function approval_transaksi_inventarisasi(){
-        return $this->hasMany('ApprovalTransaksiInventarisasi');
+        return $this->hasMany('App\ApprovalTransaksiInventarisasi');
     }
 
     public function user(){
-        return $this->hasMany('User');
+        return $this->hasMany('App\User');
+    }
+
+    public function master_kondisi(){
+        return $this->belongsTo('App\MasterKondisi', 'kondisi_id');
     }
 }

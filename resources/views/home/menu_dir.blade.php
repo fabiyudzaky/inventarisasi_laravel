@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="card m-auto">
-                                <a href="{{route('dir')}}" class="">
+                                <a href="{{route('transaksi-inventarisasi.ruangan', ['ruangan' => 1])}}">
                                     <div class="card-body text-center">
                                         <img src="{{asset('images/ruang-kantor.jpg')}}" class="card-img-top" alt="<a href='https://www.freepik.com/vectors/business'>Business vector created by macrovector - www.freepik.com</a>" loading="lazy">
                                         <h5 class="card-title">Ruangan Kantor</h5>
@@ -33,7 +33,7 @@
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="card m-auto">
-                                <a href="{{route('dir')}}" class="">
+                                <a href="{{route('transaksi-inventarisasi.ruangan', ['ruangan' => 2])}}">
                                     <div class="card-body text-center">
                                         <img src="{{asset('images/gudang-listrik.jpg')}}" class="card-img-top" alt="<a href='https://www.freepik.com/vectors/business'>Business vector created by macrovector - www.freepik.com</a>" loading="lazy">
                                         <h5 class="card-title">Gudang Listrik</h5>
@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="card m-auto">
-                                <a href="{{route('dir')}}" class="">
+                                <a href="{{route('transaksi-inventarisasi.ruangan', ['ruangan' => 3])}}">
                                     <div class="card-body text-center">
                                         <img src="{{asset('images/gudang-atk.jpg')}}" class="card-img-top" alt="<a href='https://www.freepik.com/vectors/business'>Business vector created by macrovector - www.freepik.com</a>" loading="lazy">
                                         <h5 class="card-title">Gudang ATK</h5>
@@ -58,4 +58,23 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<!-- <script>
+    $(document).ready(function(){
+        $('.ruangan').click(function(){
+            var ruang_id = $(this).data("id");
+
+            $ajax({
+                data    : ruang_id,
+                url     : {{route('transaksi-inventarisasi.index')}},
+                type    : "GET",
+                success : function(data){
+                    // 
+                }
+            });
+        });
+    });
+</script> -->
 @endsection
