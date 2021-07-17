@@ -20,6 +20,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/menu-dir', 'HomeController@menu_dir')->name('dir');
 Route::get('/menu-pindah-ruangan', 'HomeController@menu_pindah_ruangan')->name('pindah_ruangan');
+Route::get('/tentang', 'HomeController@tentang')->name('tentang');
 
 Route::resource('master-aset', 'MasterAsetController');
 
