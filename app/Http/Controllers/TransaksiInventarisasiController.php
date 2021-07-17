@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\TransaksiInventarisasi;
 use Illuminate\Http\Request;
 use App\MasterRuangan;
+use App\ApprovalTransaksiInventarisasi;
+use Auth;
 
 class TransaksiInventarisasiController extends Controller
 {
@@ -57,6 +59,14 @@ class TransaksiInventarisasiController extends Controller
         $transaksiInventarisasi->jenis_inventarisasi_id = 1;
         $transaksiInventarisasi->ruangan_id = $request->input('ruangan_id');
         $transaksiInventarisasi->save();
+
+        $approvalTransaksiInventarisasi = new ApprovalTransaksiInventarisasi;
+        $approvalTransaksiInventarisasi->transaksi_inventarisasi_id = $transaksiInventarisasi->id;
+        $approvalTransaksiInventarisasi->alasan                     = "";
+        $approvalTransaksiInventarisasi->status                     = "Proses";
+        $approvalTransaksiInventarisasi->pembuat_id                 = Auth::id();
+        $approvalTransaksiInventarisasi->verifikator_id             = Auth::id();
+        $approvalTransaksiInventarisasi->save();
 
         return redirect(route('transaksi-inventarisasi.ruangan', ['ruangan' => $transaksiInventarisasi->ruangan_id]));
     }
@@ -123,15 +133,33 @@ class TransaksiInventarisasiController extends Controller
     public function ruangan($id){
         //
         $no = 1;
+        $ajukan = "Mati";
         $ruangan = MasterRuangan::find($id);
         $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan->id)->get();
-        return view('transaksi-inventarisasi.index', compact('transaksiInventarisasi', 'ruangan', 'no'));
+        foreach($transaksiInventarisasi as $trxInv){
+            $approvalTransaksiInventarisasi = ApprovalTransaksiInventarisasi::where('transaksi_inventarisasi_id', '=', $trxInv->id)->latest()->first();
+            $trxInv['status']   = $approvalTransaksiInventarisasi->status;
+            if($trxInv['status'] == "Proses"){
+                $ajukan = "Nyala";
+            }
+        }
+        // dd($approvalTransaksiInventarisasi);
+        return view('transaksi-inventarisasi.index', compact('transaksiInventarisasi', 'ruangan', 'no', 'ajukan'));
     }
 
     public function ubah_ruangan($id){
-        $no = 1;
+        $ubah = "Nyala";
+        $hapus = "Nyala";
         $ruangan = MasterRuangan::find($id);
         $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan->id)->get();
-        return view('transaksi-inventarisasi.ubah-ruangan', compact('transaksiInventarisasi', 'ruangan', 'no'));
+        foreach($transaksiInventarisasi as $trxInv){
+            $approvalTransaksiInventarisasi = ApprovalTransaksiInventarisasi::where('transaksi_inventarisasi_id', '=', $trxInv->id)->latest()->first();
+            $trxInv['status']   = $approvalTransaksiInventarisasi->status;
+            if($trxInv['status'] == "Diajukan"){
+                $ubah = "Mati";
+                $hapus = "Mati";
+            }
+        }
+        return view('transaksi-inventarisasi.ubah-ruangan', compact('transaksiInventarisasi', 'ruangan', 'ubah', 'hapus'));
     }
 }

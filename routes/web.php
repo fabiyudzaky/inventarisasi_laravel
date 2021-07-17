@@ -27,6 +27,7 @@ Route::resource('transaksi-inventarisasi', 'TransaksiInventarisasiController');
 Route::resource('approval-transaksi-inventarisasi', 'ApprovalTransaksiInventarisasiController');
 Route::get('/transaksi-inventarisasi/ruangan/{ruangan}', 'TransaksiInventarisasiController@ruangan')->name('transaksi-inventarisasi.ruangan');
 Route::get('/transaksi-inventarisasi/ruangan/ubah/{ruangan}', 'TransaksiInventarisasiController@ubah_ruangan')->name('transaksi-inventarisasi.ubah-ruangan');
+Route::post('/approval-transaksi-inventarisasi/ruangan/ajukan/{ruangan}', 'ApprovalTransaksiInventarisasiController@ajukan_ruangan')->name('approval-transaksi-inventarisasi.ajukan-ruangan');
 
 Route::resource('transaksi-pindah-ruangan', 'TransaksiPindahRuanganController');
 Route::resource('approval-transaksi-pindah-ruangan', 'ApprovalTransaksiPindahRuanganController');
