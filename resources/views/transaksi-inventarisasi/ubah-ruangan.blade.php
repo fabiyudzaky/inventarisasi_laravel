@@ -96,10 +96,10 @@
                                 </td>
                                 <td>
                                     <form action="{{route('transaksi-inventarisasi.destroy', ['transaksi_inventarisasi' => $trxInv->id])}}" method="post">
-                                        <button type="button" id="" class="btn btn-warning btn-edit" data-toggle="modal" data-target="#edit-modal" data-id="{{$trxInv->id}}" @if($ubah == "Mati") disabled @endif>Ubah</button>
+                                        <button type="button" id="" class="btn btn-warning btn-edit" data-toggle="modal" data-target="#edit-modal" data-id="{{$trxInv->id}}" @if($trxInv->ubah == "Mati") disabled @endif>Ubah</button>
                                         @method('delete')
                                         @csrf
-                                        <button type="submit" class="btn btn-danger" @if($hapus == "Mati") disabled @endif>Hapus</button>
+                                        <button type="submit" class="btn btn-danger" @if($trxInv->hapus == "Mati") disabled @endif>Hapus</button>
                                     </form>
                                 </td>
                             </tr>

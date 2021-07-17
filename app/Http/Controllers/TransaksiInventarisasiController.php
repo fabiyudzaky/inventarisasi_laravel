@@ -148,18 +148,19 @@ class TransaksiInventarisasiController extends Controller
     }
 
     public function ubah_ruangan($id){
-        $ubah = "Nyala";
-        $hapus = "Nyala";
         $ruangan = MasterRuangan::find($id);
         $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan->id)->get();
         foreach($transaksiInventarisasi as $trxInv){
             $approvalTransaksiInventarisasi = ApprovalTransaksiInventarisasi::where('transaksi_inventarisasi_id', '=', $trxInv->id)->latest()->first();
             $trxInv['status']   = $approvalTransaksiInventarisasi->status;
             if($trxInv['status'] == "Diajukan"){
-                $ubah = "Mati";
-                $hapus = "Mati";
+                $trxInv['ubah']   = "Mati";
+                $trxInv['hapus']   = "Mati";
+            }else{
+                $trxInv['ubah']   = "Nyala";
+                $trxInv['hapus']   = "Nyala";
             }
         }
-        return view('transaksi-inventarisasi.ubah-ruangan', compact('transaksiInventarisasi', 'ruangan', 'ubah', 'hapus'));
+        return view('transaksi-inventarisasi.ubah-ruangan', compact('transaksiInventarisasi', 'ruangan'));
     }
 }
