@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\ApprovalTransaksiInventarisasi;
 use Illuminate\Http\Request;
+use App\MasterRuangan;
+use App\TransaksiInventarisasi;
+use Auth;
 
 class ApprovalTransaksiInventarisasiController extends Controller
 {
@@ -81,5 +84,21 @@ class ApprovalTransaksiInventarisasiController extends Controller
     public function destroy(ApprovalTransaksiInventarisasi $approvalTransaksiInventarisasi)
     {
         //
+    }
+
+    public function ajukan_ruangan(Request $request){
+        $ruangan = MasterRuangan::find($request->ruangan_id);
+        $transaksiInventarisasi = TransaksiInventarisasi::where('ruangan_id', '=', $ruangan->id)->get();
+        foreach($transaksiInventarisasi as $trxInv){
+            $approvalTransaksiInventarisasi                             = new ApprovalTransaksiInventarisasi;
+            $approvalTransaksiInventarisasi->transaksi_inventarisasi_id = $trxInv->id;
+            $approvalTransaksiInventarisasi->alasan                     = "";
+            $approvalTransaksiInventarisasi->status                     = "Diajukan";
+            $approvalTransaksiInventarisasi->pembuat_id                 = Auth::id();
+            $approvalTransaksiInventarisasi->verifikator_id             = Auth::id();
+            $approvalTransaksiInventarisasi->save();
+        }
+        
+        return response()->json($transaksiInventarisasi, 200);
     }
 }

@@ -53,9 +53,9 @@
                         </a>
                     </div>
                     <div class="ml-auto p-2">
-                        <a href="" class="btn btn-success">
+                        <button class="btn btn-success @if($ajukan == 'Mati') disabled @endif" id="ajukan">
                             Ajukan
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -65,15 +65,16 @@
         <!-- tabel berisi barangnya -->
         <div class="container d-flex flex-column">
             <div class="table-responsive mt-3 ms-1 me-5">
-                <table class="table table-bordered">
+                <table class="table table-bordered text-center">
                     <thead>
-                        <th>No</th>
-                        <th>Nomer Register</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Barang</th>
-                        <th>Tanggal Perolehan</th>
-                        <th>Keterangan</th>
-                        <th>Kondisi</th>
+                        <th width="4%">No</th>
+                        <th width="14%">Nomer Register</th>
+                        <th width="15%">Kode Barang</th>
+                        <th width="17%">Nama Barang</th>
+                        <th width="15%">Tanggal Perolehan</th>
+                        <th width="15%">Keterangan</th>
+                        <th width="10%">Kondisi</th>
+                        <th width="10%">Status</th>
     
                     </thead>
     
@@ -89,6 +90,12 @@
                                 <td>{{$trxInv->tanggal_perolehan}}</td>
                                 <td>{{$trxInv->keterangan}}</td>
                                 <td>{{$trxInv->master_kondisi->keterangan}}</td>
+                                <td>
+                                    <span class="badge @if($trxInv->status == 'Proses') badge-primary 
+                                        @elseif ($trxInv->status == 'Diajukan') badge-success @endif">
+                                        {{$trxInv->status}}
+                                    </span>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -107,4 +114,32 @@
 @endsection
 
 @section('script')
+    <script>
+        $(document).ready(function(){
+     
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $( "#ajukan" ).click(function() {
+                var ruangan_id = {{$ruangan->id}};
+                console.log(ruangan_id);
+
+                // var _token = $('meta[name="csrf-token"]').attr('content');
+                // console.log(_token);
+
+                $.ajax({
+                    data: {"ruangan_id" : ruangan_id},
+                    url: "{{url('/approval-transaksi-inventarisasi/ruangan/ajukan')}}/"+ruangan_id,
+                    type: "post",
+                    success: function(res){
+                        console.log(res);
+                        window.location.href = "{{route('transaksi-inventarisasi.ruangan', ['ruangan' => $ruangan->id])}}";
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
